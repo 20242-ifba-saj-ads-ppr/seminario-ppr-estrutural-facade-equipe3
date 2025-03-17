@@ -1,0 +1,45 @@
+@startuml
+
+' Interfaces
+interface FileConverter {
+  +convertToJson(content: String): String
+}
+
+' Classes concretas
+class XmlConverter {
+  +convertToJson(content: String): String
+}
+
+class CsvConverter {
+  +convertToJson(content: String): String
+}
+
+class HtmlConverter {
+  -extractTagContent(html: String, tag: String): String
+  -extractAllTagContents(html: String, tag: String): String[]
+  +convertToJson(content: String): String
+}
+
+class ConversionFacade {
+  -xmlConverter: XmlConverter
+  -csvConverter: CsvConverter
+  -htmlConverter: HtmlConverter
+  +ConversionFacade()
+  +convertXmlToJson(xmlContent: String): String
+  +convertCsvToJson(csvContent: String): String
+  +convertHtmlToJson(htmlContent: String): String
+  +convertToJson(content: String, fileType: String): String
+}
+
+
+' Relacionamentos
+FileConverter <|.. XmlConverter
+FileConverter <|.. CsvConverter
+FileConverter <|.. HtmlConverter
+
+ConversionFacade -|> XmlConverter
+ConversionFacade --|> CsvConverter
+ConversionFacade -|> HtmlConverter
+
+
+@enduml
